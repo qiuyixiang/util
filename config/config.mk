@@ -26,6 +26,8 @@
 CC					:=		gcc-14
 # C++ Compiler Configuration
 CXX					:=		g++
+# Archive Tool
+AR 					:=		ar
 # C ANSI/ISO Standard Version
 CC_STD				:=		gnu11
 # C++ ANSI/ISO Standard Version

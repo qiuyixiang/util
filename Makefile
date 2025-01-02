@@ -30,6 +30,7 @@ SRC_PATH			:=		./src
 CONFIG_PATH			:=		./config
 TEST_PATH			:=		./test
 BUILD_PATH			:=		$(BUILD_DIR)
+OBJ_PATH			:=		$(BUILD_PATH)/obj
 
 # C Compiler Flags
 CC_FLAGS			:=	
@@ -46,3 +47,33 @@ else
 CC_FLAGS			+=		-O0
 CC_FLAGS			+=		-g -ggdb3 
 endif
+
+SRC_LISTS			:=		$(sort $(shell find $(SRC_PATH) -type f -name "*.c"))
+SRC_LISTS			:=		$(notdir $(SRC_LISTS))
+
+OBJ_LISTS			:=		$(patsubst %.c, %.o, $(SRC_LISTS))
+OBJ_LISTS			:=		$(addprefix $(OBJ_PATH)/, $(OBJ_LISTS))
+
+.DEFAULT_GOAL		:=		all
+
+.PHONY: all clean lib check_dir
+
+all: lib 
+
+lib: check_dir $(OBJ_LISTS)
+ifeq ($(BUILD_MODE), static)
+# Build For Static Library
+	$(AR) rcs $(BUILD_PATH)/lib$(LIB_NAME).a $(OBJ_LISTS)
+else
+
+endif
+
+$(OBJ_PATH)/%.o:$(SRC_PATH)/%.c
+	$(CC) $(CC_FLAGS) -c $< -o $@
+
+# Phony Target Defined Here
+check_dir:
+	@mkdir -p $(OBJ_PATH)
+
+clean:
+	rm -rf $(BUILD_PATH)
