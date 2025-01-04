@@ -76,4 +76,4 @@ check_dir:
 	@mkdir -p $(OBJ_PATH)
 
 clean:
-	rm -rf $(BUILD_PATH)
+	@rm -rf $(BUILD_PATH)
