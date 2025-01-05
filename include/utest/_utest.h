@@ -27,6 +27,8 @@
 #define __UTIL_UTEST_H__
 
 #include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 #undef TEST_UNIT
 #undef RUN_ALL_TEST
@@ -47,22 +49,7 @@
 #define _UTEST_COLOR_WHITE          "\033[37m"
 #define _UTEST_COLOR_RESET          "\033[0m"
 
-#define _UTEST_RESET_COLOR          fprintf(stdout, _UTEST_COLOR_RESET)
-#define _UTEST_SET_COLOR(COLOR)     fprintf(stdout, COLOR)
 
-#define _UTEST_ERROR_MSG(CASE)                                                       \
-             _UTEST_SET_COLOR(_UTEST_COLOR_RED);  \
-             fprintf(stdout, "%s failed at line : %d file : %s\n",  \
-                 CASE, __LINE__, __FILE__);  \
-             _UTEST_RESET_COLOR
-
-
-#if (!defined(__UTIL_UTEST_IMPL__)) 
-extern void utest_run_all_test();
-#endif
-
-#define TEST_UNIT(TESTUNIT)                 void TESTUNIT()
-#define RUN_ALL_TEST                        utest_run_all_test
 
 #define EXPECT_EQ(COND1, COND2)                                                        
 #define EXPECT_NE(COND1, COND2)

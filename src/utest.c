@@ -25,8 +25,3 @@
 
 #include <stdio.h>
 
-#define __UTIL_UTEST_IMPL__     1
-
-void utest_run_all_test(){
-
-}

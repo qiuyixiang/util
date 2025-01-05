@@ -37,7 +37,7 @@ CC_FLAGS			:=
 CC_FLAGS			+=		-std=$(CC_STD)
 CC_FLAGS			+=		-Wall -Wextra -Wshadow -Werror
 CC_FLAGS			+=		-Wno-unused-parameter -Wno-unused-but-set-variable
-CC_FLAGS			+=		-isystem=$(INCLUDE_PATH)
+CC_FLAGS			+=		-isystem $(INCLUDE_PATH)
 
 ifeq ($(DEBUGGER), 0)
 # Disable Debugger Mode
@@ -78,6 +78,7 @@ check_dir:
 clean:
 	@rm -rf $(BUILD_PATH)
 	@rm -rf $(TEST_PATH)/build
+	@rm -rf ./main.out
 
 test: lib
 	$(MAKE) -C test 
