@@ -20,23 +20,49 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Configuration for the util library
+# Makefile For Test
 
-# C Compiler Configuration
 CC					:=		gcc-14
-# C++ Compiler Configuration
-CXX					:=		g++-14
-# Archive Tool
-AR 					:=		ar
-# C ANSI/ISO Standard Version
-CC_STD				:=		gnu11
-# C++ ANSI/ISO Standard Version
-CPP_STD				:=		gnu++11
-# Library Name
+
+
+BUILD_PATH			:=		./build
+LIB_PATH			:=		../build
+INCLUDE_PATH		:=		../include
+
 LIB_NAME			:=		util
-# Build Directory Name
-BUILD_DIR			:=		build
-# Debugger Flags (0 default)
-DEBUGGER			:=		0
-# Library Building Method (static by default)
-BUILD_MODE			:=		static
+OUTPUT_FILE_NAME	:=		main.out
+
+CC_FLAGS			+=		-Wall -Wextra -Wshadow -Werror
+CC_FLAGS			+=		-Wno-unused-parameter -Wno-unused-but-set-variable
+CC_FLAGS			+=		-O3
+CC_FLAGS			+=		-isystem $(INCLUDE_PATH)
+
+# Change This Test case for different test target
+TEST_CASE			:=		utest
+
+.DEFAULT_TARGET		:=		all 
+.PHONY: clean all check_dir
+
+all: check_dir $(TEST_CASE)
+
+# Define Self-Custom Test Case Here
+######################################################
+
+# Test For Sub-library Utest 
+UTEST_PATH			:=		./utest
+
+utest: $(BUILD_PATH)/utest.o
+	$(CC) $(CC_FLAGS) $< -L $(LIB_PATH) -l$(LIB_NAME) -o ../$(OUTPUT_FILE_NAME)
+
+$(BUILD_PATH)/utest.o: $(UTEST_PATH)/utest.c
+	$(CC) $(CC_FLAGS) -c $< -o $@
+
+
+######################################################
+
+
+check_dir:
+	@mkdir -p $(BUILD_PATH)
+
+clean:
+	rm -rf $(BUILD_PATH)

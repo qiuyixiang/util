@@ -56,7 +56,7 @@ OBJ_LISTS			:=		$(addprefix $(OBJ_PATH)/, $(OBJ_LISTS))
 
 .DEFAULT_GOAL		:=		all
 
-.PHONY: all clean lib check_dir
+.PHONY: all clean lib check_dir test
 
 all: lib 
 
@@ -77,3 +77,7 @@ check_dir:
 
 clean:
 	@rm -rf $(BUILD_PATH)
+	@rm -rf $(TEST_PATH)/build
+
+test: lib
+	$(MAKE) -C test 
