@@ -26,16 +26,30 @@
 #ifndef UTIL_UTEST_H
 #define UTIL_UTEST_H
 
+/**
+ * This sub-library is just for simple unit test
+ * Designed using only C, and this file is part of util library
+ * Usage: 
+ *  REGISTER_TEST(TEST_NAME)      
+ *      Register a test which will be executed by call RUN_ALL_TEST
+ *  RUN_ALL_TEST()
+ *      A macro which will run all test suites automatically
+ */
+
 /* Declaration Interface of Simple C Unit Test */
-#define TEST_UNIT(TESTUNIT)
+#define REGISTER_TEST(TEST_NAME)
 #define RUN_ALL_TEST
 
 #define EXPECT_EQ(COND1, COND2)
 #define EXPECT_NE(COND1, COND2)
 #define EXPECT_LT(COND1, COND2)
 #define EXPECT_GT(COND1, COND2)
-#define EXPECT_RANGE_EQ(BUFFER, TYPE, VALUE)
+#define EXPECT_TRUE(COND)
+#define EXPECT_FALSE(COND)
+#define EXPECT_RANGE_EQ(BUFFER, TYPE, SIZE, VALUE)
 
+// Backward Compatible With Later Test Frame
+#define USING_IMPL_ASSERT
 
 #include <utest/_utest.h>
 #endif

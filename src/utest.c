@@ -25,3 +25,4 @@
 
 #include <stdio.h>
 
+/* No Actual Data or Function In Assert Implementation Version */
