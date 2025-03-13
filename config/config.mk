@@ -22,5 +22,14 @@
 
 # Config for util
 
+# config for modules (include all modules by default)
+# MODULES		:=		
 
+# config for debugger
+DEBUGGER 	:=		false
 
+# config for library name
+LIB_NAME	:=		util
+
+# config for library build method
+METHOD		:=		static

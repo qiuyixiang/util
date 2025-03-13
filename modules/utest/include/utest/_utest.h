@@ -97,11 +97,12 @@
 #define _FLAG_TEST_SUB_CASE     2
 #define _FLAG_TEST_PURE_FUNC    3
 
-
+extern void _utest_init(void);
 #undef INIT_TEST
-#define INIT_TEST()                                     \
-  \                
+#define INIT_TEST               _utest_init                                          
 
+extern uint32_t __global_test_counter;
+extern uint32_t __global_subtest_counter;
 
 #undef TEST_CASE
 #undef SUB_TEST_CASE
