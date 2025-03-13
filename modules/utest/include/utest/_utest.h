@@ -84,14 +84,14 @@
 
 // macros for ascii color
 #define _COLOR_RESET        "\033[0m"
-#define _COLOR_BLACK        "\033[30m"  
-#define _COLOR_RED          "\033[31m"  
-#define _COLOR_GREEN        "\033[32m"  
-#define _COLOR_YELLOW       "\033[33m"  
-#define _COLOR_BLUE         "\033[34m"  
-#define _COLOR_MAGENTA      "\033[35m"  
-#define _COLOR_CYAN         "\033[36m"  
-#define _COLOR_WHITE        "\033[37m" 
+#define _COLOR_BLACK        "\033[30m"
+#define _COLOR_RED          "\033[31m"
+#define _COLOR_GREEN        "\033[32m"
+#define _COLOR_YELLOW       "\033[33m"
+#define _COLOR_BLUE         "\033[34m"
+#define _COLOR_MAGENTA      "\033[35m"
+#define _COLOR_CYAN         "\033[36m"
+#define _COLOR_WHITE        "\033[37m"
 
 #define _FLAG_TEST_CASE         1
 #define _FLAG_TEST_SUB_CASE     2
@@ -112,6 +112,7 @@ extern uint32_t __global_subtest_counter;
 #undef RUN_SUB_TEST_CASE
 
 #define _DECLARE_FUNC(NAME)                 void CONCAT(_test_, NAME)(void)
+#define _RUN_FUNC(NAME)                     CONCAT(_test_, NAME)()
 #define _SUCCESS_INFO(NAME, FLAG)                           \
     if (FLAG == _FLAG_TEST_CASE)                            \
         fprintf(stdout, "[" _COLOR_GREEN STRING(NAME)       \
@@ -121,6 +122,7 @@ extern uint32_t __global_subtest_counter;
         _COLOR_RESET "]\t Sub-Test Case Successfully\n");   \
 
 #define _RUN_TEST(CASE, FLAG)                               \
+    _RUN_FUNC(CASE);                                        \
     _SUCCESS_INFO(CASE, FLAG);                              \
     if (FLAG == _FLAG_TEST_CASE)                            \
         __global_test_counter++;                            \
@@ -128,7 +130,7 @@ extern uint32_t __global_subtest_counter;
         __global_subtest_counter++;             
 
 #define TEST_CASE(CASE)                     _DECLARE_FUNC(CASE)
-#define SUB_TEST_CASE(SUBCASE)              _DECLARE_FUNC(CASE)
+#define SUB_TEST_CASE(SUBCASE)              _DECLARE_FUNC(SUBCASE)
 
 #define RUN_TEST_CASE(CASE)                 _RUN_TEST(CASE, _FLAG_TEST_CASE)
 #define RUN_TEST_FUNC(FUNC)                 _RUN_TEST(FUNC, _FLAG_TEST_PURE_FUNC)
@@ -137,6 +139,5 @@ extern uint32_t __global_subtest_counter;
                
 #undef RUN_ALL_TEST
 #define RUN_ALL_TEST()
-
 
 #endif

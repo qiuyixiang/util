@@ -13,6 +13,7 @@ SUB_TEST_CASE(string){
     EXPECT_STR_EQ("Hello", "Hello");
     EXPECT_STR_NE("Hello", "World");
 }
+
 TEST_CASE(multiple){
     RUN_SUB_TEST_CASE(string);
 }
@@ -22,4 +23,5 @@ int main(int argc, char * argv[]){
     (void)argc, (void)argv;
     INIT_TEST();
     RUN_TEST_CASE(simple);
+    RUN_TEST_CASE(multiple);
 }
