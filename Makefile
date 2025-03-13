@@ -21,7 +21,53 @@
 # SOFTWARE.
 
 # Makefile for util project
-include "config/config.mk"
+include config/config.mk
+
+ROOT_DIR			:=		.
+BUILD_DIR			:=		$(ROOT_DIR)/build
+MODULE_DIR			:=		$(ROOT_DIR)/modules
+INCLUDE_DIR			:=		$(ROOT_DIR)/include
+OBJ_DIR				:=		$(BUILD_DIR)/obj
+
+# options for GNU GCC flags
+CC_FLAGS		:=
+# GCC warning flags
+CC_WARNING		:=		-Wall -Werror -Wextra -Wshadow
+# GCC std version flags
+CC_STD			:=		-std=c11
+
+CC_FLAGS		+= 		$(CC_WARNING) $(CC_STD)
+
+
+MODULE_LIST			:=		$(MODULES)
+MODULE_SRCS			:=		$(foreach module, $(MODULE_LIST), $(wildcard $(MODULE_DIR)/$(module)/src/*.c))
+# Module objects format as : ./build/MODULE/%.c
+MODULE_OBJS			:=		$(foreach module, $(MODULE_LIST), 		\
+							$(addprefix $(OBJ_DIR)/$(module)/, 		\
+							$(patsubst %.c, %.o, 					\
+							$(notdir 								\
+							$(wildcard $(MODULE_DIR)/$(module)/src/*.c)))))
+OBJS				:=		$(MODULE_OBJS)
+
+# this file used to generate compile rule for modules
+# @argument: module name
+define compile_rule
+$(OBJ_DIR)/$(1)/%.o: $(MODULE_DIR)/$(1)/src/%.c
+	@mkdir -p $(OBJ_DIR)/$(1)
+	@$(CC) $(CC_FLAGS) -c $$< -o $$@
+endef
+
+
+$(foreach mod, $(MODULE_LIST), $(eval $(call compile_rule,$(mod))))
+
+
+.PHONY: 		main, clean
+.DEFAULT_GOAL		:=		main
+
+clean:
+	@rm -rf $(BUILD_DIR)
+
+main: $(OBJS)
 
 
 
