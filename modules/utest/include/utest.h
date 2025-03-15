@@ -73,20 +73,37 @@
 
 // test cases function
 
+#define FORMAT_DEFAULT
+#define FORMAT_TIGHT
+// set test cases output format
+#define SET_OUTPUT_FORMAT(FORMAT)
+
 // create test case
 #define TEST_CASE(CASE)
 // create sub-test case
 #define SUB_TEST_CASE(SUBCASE)
+
+// Flags for RUN_TEST_CASE_FLAG
+#define FLAG_TEST_CASE
+#define FLAG_SUB_TEST_CASE
+#define FLAG_PURE_FUNC
+#define FLAG_HAS_SUB_CASE
+
 // will run test case and print success info 
 #define RUN_TEST_CASE(CASE)
-// similar to RUN_TEST_CASE but will not save status (no counter and info)
-#define RUN_TEST_FUNC(FUNC)
 // will run sub-test case and print success info
-#define RUN_SUB_TEST_CASE(SUBCASE)
+#define RUN_SUB_TEST_CASE(CASE)
+// similar to RUN_TEST_CASE but has a flag argument
+#define RUN_TEST_FLAG(CASE, FLAG)
 
 // In this version of utest RUN_ALL_TEST will do nothing which means you need run
 // test functions manually by calling RUN_TEST_CASE or RUN_SUB_TEST_CASE
 #define RUN_ALL_TEST()
 
+#ifndef __cplusplus
 #include <utest/_utest.h>
+#else
+#include <utest/_utest.hpp>
+#endif
+
 #endif

@@ -22,19 +22,67 @@
  *  SOFTWARE.
  */
 
-#include <stdint.h>
-#include <stdio.h>
+#include <utest.h>
+#include <stdlib.h>
 
 uint32_t __global_test_counter;
 uint32_t __global_subtest_counter;
+uint32_t __global_ot_format;
+
+#define SPACE_ALIGN_MAX     30
+#define BUFFER_SIZE         64
 
 __attribute__((constructor)) void _init_utest(void){
     __global_test_counter = 0;
     __global_subtest_counter = 0;
+    __global_ot_format = FORMAT_DEFAULT;
     fprintf(stdout, "Utest A simple C Unit Test Framework.\n");
 }
 __attribute__((destructor)) void _fini_utest(void){
     fprintf(stdout, "\nUtest Summary:\n");
     fprintf(stdout, " -Test Cases Passed : %u \n -Sub-Test Cases Passed : %u \n", \
             __global_test_counter, __global_subtest_counter);
+}
+// print message with case information in format [CASE_NAME] 
+// and the string is left-aligned
+static void _print_align(const char * __msg, uint32_t __align){
+    size_t __len = strlen(__msg);
+    if (__len <= __align){
+        fprintf(stdout, "%s", __msg);
+        fprintf(stdout, "%*s", (int)(__align - __len), " ");
+    }else{
+        fprintf(stderr, "Case name too long !\n");
+        exit(-1);
+    }
+}
+// run test case with proper info display
+void _run_test(void(*__case_handler)(), const char * __case, uint32_t __flag){
+    char __buffer[BUFFER_SIZE];
+    if (__flag & FLAG_TEST_CASE){
+        if (__flag == FLAG_HAS_SUB_CASE){
+            
+        }else{
+            if (__global_ot_format != FORMAT_TIGHT){
+                sprintf(__buffer, "[%s]", __case);
+                _print_align(__buffer, SPACE_ALIGN_MAX - strlen(_COLOR_GREEN) - strlen(_COLOR_RESET));
+                fprintf(stdout, "Running Test Case\n");
+            }
+
+            (*__case_handler)();
+
+            sprintf(__buffer, "[%s%s%s]", _COLOR_GREEN, __case, _COLOR_RESET);
+            _print_align(__buffer, SPACE_ALIGN_MAX);
+            fprintf(stdout, "Test Case Passed\n");
+        }
+        __global_test_counter++;
+    }else if (__flag & FLAG_SUB_TEST_CASE){
+        (*__case_handler)();
+        // String format process
+        sprintf(__buffer, " |-[%s%s%s]", _COLOR_GREEN, __case, _COLOR_RESET);
+        _print_align(__buffer, SPACE_ALIGN_MAX + 3);
+        fprintf(stdout, "Sub-test Case Passed!\n");
+
+        __global_subtest_counter++;
+    }
+    
 }
