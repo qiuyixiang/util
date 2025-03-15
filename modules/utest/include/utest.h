@@ -51,11 +51,25 @@
 #define CONCAT4(VAL1, VAL2, VAL3, VAL4)    
 #define STRING(VAR)         
 
-#define BEGIN_DECL          
-#define END_DECL    
+#define BEGIN_DECL   
+#define END_DECL
 
-// initialize utest framework
-#define INIT_TEST()
+// test arch information
+#define BITS32          32
+#define BITS64          64
+
+#define NON_ARCH        0
+#define I386            1
+#define X86_64          2
+#define ARM             3
+#define AARCH64         4
+#define RISC32          5
+#define RISC64          6
+
+// A macro specify the test machine architecture
+#define TEST_ARCH 
+// A macro specify the test machine word size
+#define TEST_WORD
 
 // test cases function
 

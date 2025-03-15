@@ -97,29 +97,53 @@
 #define _FLAG_TEST_SUB_CASE     2
 #define _FLAG_TEST_PURE_FUNC    3
 
-extern void _utest_init(void);
-#undef INIT_TEST
-#define INIT_TEST               _utest_init                                          
+#define _ATTR_CONSTRUCTOR       __attribute__((constructor))
+#define _ATTR_DESTRUCTOR        __attribute__((destructor))
+
+#undef TEST_WORD    
+#undef TEST_ARCH
+
+// machine architecture detection
+#if (defined(__i386__))
+#define TEST_ARCH       I386
+#define TEST_WORD       BITS32
+#endif
+#if (defined(__x86_64__))
+#define TEST_ARCH       X86_64
+#define TEST_WORD       BITS64
+#endif
+#if (defined(__arm__))
+#define TEST_ARCH       ARM
+#define TEST_WORD       BITS32
+#endif
+#if (defined(__aarch64__))
+#define TEST_ARCH       AARCH64
+#define TEST_WORD       BITS64
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern _ATTR_CONSTRUCTOR void _init_utest(void);
+extern _ATTR_DESTRUCTOR void _fini_utest(void);
+
+#ifdef __cplusplus
+}
+#endif                                       
 
 extern uint32_t __global_test_counter;
 extern uint32_t __global_subtest_counter;
-
-#undef TEST_CASE
-#undef SUB_TEST_CASE
-
-#undef RUN_TEST_CASE
-#undef RUN_TEST_FUNC
-#undef RUN_SUB_TEST_CASE
 
 #define _DECLARE_FUNC(NAME)                 void CONCAT(_test_, NAME)(void)
 #define _RUN_FUNC(NAME)                     CONCAT(_test_, NAME)()
 #define _SUCCESS_INFO(NAME, FLAG)                           \
     if (FLAG == _FLAG_TEST_CASE)                            \
-        fprintf(stdout, "[" _COLOR_GREEN STRING(NAME)       \
-        _COLOR_RESET "]\t Test Case Successfully\n");       \
+        fprintf(stdout, "%-30sTest Case Passed\n",        \
+        "[" _COLOR_GREEN STRING(NAME) _COLOR_RESET "]");    \
     else if (FLAG == _FLAG_TEST_SUB_CASE)                   \
-        fprintf(stdout, "\t[" _COLOR_GREEN STRING(NAME)     \
-        _COLOR_RESET "]\t Sub-Test Case Successfully\n");   \
+        fprintf(stdout, " |-%-30sSub-Test Case Passed\n",    \
+        "[" _COLOR_GREEN STRING(NAME) _COLOR_RESET "]");   \
 
 #define _RUN_TEST(CASE, FLAG)                               \
     _RUN_FUNC(CASE);                                        \
@@ -129,8 +153,15 @@ extern uint32_t __global_subtest_counter;
     else if (FLAG == _FLAG_TEST_SUB_CASE)                   \
         __global_subtest_counter++;             
 
+#undef TEST_CASE
+#undef SUB_TEST_CASE
+
 #define TEST_CASE(CASE)                     _DECLARE_FUNC(CASE)
 #define SUB_TEST_CASE(SUBCASE)              _DECLARE_FUNC(SUBCASE)
+
+#undef RUN_TEST_CASE
+#undef RUN_TEST_FUNC
+#undef RUN_SUB_TEST_CASE
 
 #define RUN_TEST_CASE(CASE)                 _RUN_TEST(CASE, _FLAG_TEST_CASE)
 #define RUN_TEST_FUNC(FUNC)                 _RUN_TEST(FUNC, _FLAG_TEST_PURE_FUNC)

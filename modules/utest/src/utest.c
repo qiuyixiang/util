@@ -23,11 +23,18 @@
  */
 
 #include <stdint.h>
+#include <stdio.h>
 
 uint32_t __global_test_counter;
 uint32_t __global_subtest_counter;
 
-void _utest_init(void){
+__attribute__((constructor)) void _init_utest(void){
     __global_test_counter = 0;
-    __global_test_counter = 0;
+    __global_subtest_counter = 0;
+    fprintf(stdout, "Utest A simple C Unit Test Framework.\n");
+}
+__attribute__((destructor)) void _fini_utest(void){
+    fprintf(stdout, "\nUtest Summary:\n");
+    fprintf(stdout, " -Test Cases Passed : %u \n -Sub-Test Cases Passed : %u \n", \
+            __global_test_counter, __global_subtest_counter);
 }

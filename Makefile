@@ -80,8 +80,9 @@ MODULE_OBJS		:=		$(foreach module, $(MODULE_LIST), $(MODULE_OBJS_$(module)))
 # generate compile rule for module object file
 # @argument: module name
 define compile_rule_module_obj
+CC_INCLUDE_$(1) :=		-isystem $(MODULE_DIR)/$(1)/include
 $(OBJ_DIR)/$(1)/%.o: $(MODULE_DIR)/$(1)/src/%.c
-	@$(CC) $(CC_FLAGS) -c $$< -o $$@
+	@$(CC) $(CC_FLAGS) $$(CC_INCLUDE_$(1)) -c $$< -o $$@
 	@echo "+ CC\t$(1)/$$(notdir $$<)"
 endef
 
