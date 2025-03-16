@@ -28,7 +28,7 @@
 // this module is part of project util and this header provide public interfaces of utest module
 // utest is a simple unit test module which support many facility macros
 
-// @version: utest 0.1
+// @version: utest 1.0
 // @author: QIU YIXIANG
 
 // test case assertion
@@ -36,11 +36,19 @@
 #define ASSERT_FALSE(EXPR)
 #define ASSERT_EQ(VAL1, VAL2)
 #define ASSERT_NE(VAL1, VAL2)
+#define ASSERT_GT(VAL1, VAL2)
+#define ASSERT_GE(VAL1, VAL2)
+#define ASSERT_LT(VAL1, VAL2)
+#define ASSERT_LE(VAL1, VAL2)
 
 #define EXPECT_TRUE(EXPR)                    
 #define EXPECT_FALSE(EXPR)                  
 #define EXPECT_EQ(VAL1, VAL2)                 
 #define EXPECT_NE(VAL1, VAL2)
+#define EXPECT_GT(VAL1, VAL2)
+#define EXPECT_GE(VAL1, VAL2)
+#define EXPECT_LT(VAL1, VAL2)
+#define EXPECT_LE(VAL1, VAL2)
 
 #define EXPECT_STR_EQ(STR1, STR2)
 #define EXPECT_STR_NE(STR1, STR2)

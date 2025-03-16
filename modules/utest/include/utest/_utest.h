@@ -44,21 +44,37 @@
 #undef ASSERT_FALSE
 #undef ASSERT_EQ
 #undef ASSERT_NE
+#undef ASSERT_GT
+#undef ASSERT_GE
+#undef ASSERT_LT
+#undef ASSERT_LE
 
 #define ASSERT_TRUE(EXPR)                   assert((EXPR))
 #define ASSERT_FALSE(EXPR)                  assert(!(EXPR))
 #define ASSERT_EQ(VAL1, VAL2)               assert((VAL1) == (VAL2))
 #define ASSERT_NE(VAL1, VAL2)               assert((VAL1) != (VAL2))
+#define ASSERT_GT(VAL1, VAL2)               assert((VAL1) > (VAL2))
+#define ASSERT_GE(VAL1, VAL2)               assert((VAL1) >= (VAL2))
+#define ASSERT_LT(VAL1, VAL2)               assert((VAL1) < (VAL2))
+#define ASSERT_LE(VAL1, VAL2)               assert((VAL1) <= (VAL2))
 
 #undef EXPECT_TRUE
 #undef EXPECT_FALSE
 #undef EXPECT_EQ
 #undef EXPECT_NE
+#undef EXPECT_GT
+#undef EXPECT_GE
+#undef EXPECT_LT
+#undef EXPECT_LE
 
 #define EXPECT_TRUE(EXPR)                   ASSERT_TRUE(EXPR)               
 #define EXPECT_FALSE(EXPR)                  ASSERT_FALSE(EXPR)                
 #define EXPECT_EQ(VAL1, VAL2)               ASSERT_EQ(VAL1, VAL2)                  
 #define EXPECT_NE(VAL1, VAL2)               ASSERT_NE(VAL1, VAL2)
+#define EXPECT_GT(VAL1, VAL2)               ASSERT_GT(VAL1, VAL2)
+#define EXPECT_GE(VAL1, VAL2)               ASSERT_GE(VAL1, VAL2)
+#define EXPECT_LT(VAL1, VAL2)               ASSERT_LT(VAL1, VAL2)
+#define EXPECT_LE(VAL1, VAL2)               ASSERT_LT(VAL1, VAL2)
 
 #undef EXPECT_STR_EQ
 #undef EXPECT_STR_NE
